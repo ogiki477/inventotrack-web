@@ -1,0 +1,14 @@
+php artisan make:migration create_categories_table
+php artisan make:model Category
+
+php artisan admin:make CompanyController --model=App\Models\Company
+
+// how to add column to an existing table
+php artisan make:migration add_column_to_admin_users --table=admin_users
+
+// how to add column from an existing table
+php artisan make:migration remove_column_name_from_inventory_items --table=inventory_items 
+
+php artisan make:model Company -m 
+
+php artisan make:migration add_more_data_to_admin_users --table=admin_users
