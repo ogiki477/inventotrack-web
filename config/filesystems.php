@@ -36,16 +36,25 @@ return [
             'throw' => false,
         ],
 
-        'admin' => [
-            'driver' => 'local',
-            'root' => storage_path('app'),
-            'throw' => false,
-        ],
+        // 'admin' => [
+        //     'driver' => 'local',
+        //     'root' => storage_path('app'),
+        //     'throw' => false,
+        // ],
 
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'admin' => [
+            'driver' => 'local',
+            //'root' => storage_path('app/public'),
+            'root' =>('uploads'),
+            'url' => env('APP_URL').'uploads',
             'visibility' => 'public',
             'throw' => false,
         ],

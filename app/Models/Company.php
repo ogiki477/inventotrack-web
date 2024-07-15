@@ -14,9 +14,26 @@ class Company extends Model
     protected static function boot(){
         parent::boot();
 
-        //created 
+        //updated
         static::updated(function($company){
-            die("Updated....".$company->name);
+            $owner = User::find($company->owner_id);
+            if($owner == null ){
+                throw new \Exception("Owner not found");
+            }
+            $owner->company_id = $company->id;
+            $owner->save();  
+            
+        });
+
+        //created 
+        static::created(function($company){
+            $owner = User::find($company->owner_id);
+            if($owner == null ){
+                throw new \Exception("Owner not found");
+            }
+            $owner->company_id = $company->id;
+            $owner->save();  
+            
         });
     }
 }

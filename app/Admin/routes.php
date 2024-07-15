@@ -13,5 +13,6 @@ Route::group([
 
     $router->get('/', 'HomeController@index')->name('home');
     $router->resource('companies', CompanyController::class);
+    $router->resource('stock-categories', StockCategoryController::class);
 
 });

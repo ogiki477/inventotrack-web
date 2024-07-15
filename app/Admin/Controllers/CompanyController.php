@@ -28,25 +28,42 @@ class CompanyController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Company());
-
-        $grid->column('id', __('Id'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
-        $grid->column('owner_id', __('Owner id'));
-        $grid->column('name', __('Name'));
+        $grid->disableBatchActions();
+        $grid->quickSearch('name','email');
+        $grid->column('id', __('Id'))->hide();
+        $grid->column('created_at', __('Created'))
+        ->display(function ($created_at){
+            return date('Y-m-d',strtotime($created_at));
+        });
+       // $grid->column('updated_at', __('Updated at'));
+        $grid->column('owner_id', __('Owner'))->display(function($owner_id){
+            $user = User::find($owner_id);
+            if($user == null ){
+                return ("Not found");
+            }
+            return $user->name;
+             
+            
+        })->sortable();
+        $grid->column('name', __('Company Name'));
         $grid->column('email', __('Email'));
-        $grid->column('logo', __('Logo'));
-        $grid->column('website', __('Website'));
-        $grid->column('about', __('About'));
-        $grid->column('status', __('Status'));
-        $grid->column('license_expiry', __('License expiry'));
-        $grid->column('phone_number1', __('Phone number1'));
-        $grid->column('phone_number2', __('Phone number2'));
-        $grid->column('PoBox', __('PoBox'));
-        $grid->column('color', __('Color'));
-        $grid->column('slogan', __('Slogan'));
-        $grid->column('twitter', __('Twitter'));
-        $grid->column('facebook', __('Facebook'));
+        $grid->column('logo', __('Logo'))->hide();
+        $grid->column('website', __('Website'))->hide();
+        $grid->column('about', __('About'))->hide();
+        $grid->column('status', __('Status'))->display(function($status){
+            return $status == 'active' ? 'Active' : 'Inactive';
+        })->sortable();
+        $grid->column('license_expiry', __('License expiry'))
+        ->display(function ($license_expire){
+            return date('Y-m-d',strtotime($license_expire));
+        })->sortable();
+        $grid->column('phone_number1', __('Phone number1'))->hide();
+        $grid->column('phone_number2', __('Phone number2'))->hide();
+        $grid->column('PoBox', __('PoBox'))->hide();
+        $grid->column('color', __('Color'))->hide();
+        $grid->column('slogan', __('Slogan'))->hide();
+        $grid->column('twitter', __('Twitter'))->hide();
+        $grid->column('facebook', __('Facebook'))->hide();
 
         return $grid;
     }
@@ -91,10 +108,10 @@ class CompanyController extends AdminController
     protected function form()
     {
         
-        $comp = Company::find(1);
-        $comp->name = $comp->name. '-'.rand(1,100);
-        $comp->save();
-        die("done");
+        // $comp = Company::find(1);
+        // $comp->name = $comp->name. '-'.rand(1,100);
+        // $comp->save();
+        // die("done");
 
 
         $admin_role_users = DB::table('admin_role_users')->where(['role_id'=> 2])->get();
@@ -115,7 +132,7 @@ class CompanyController extends AdminController
         $form->select('owner_id', __('Company Owner'))
         ->options($company_admins)
         ->rules('required');
-        $form->text('name', __('Name'));
+        $form->text('name', __('Company Name'));
         $form->email('email', __('Email'));
         $form->image('logo', __('Logo'));
         $form->url('website', __('Website'));
