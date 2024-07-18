@@ -43,10 +43,8 @@ class StockCategoryController extends AdminController
         $grid->column('company_id', __('Company id'))->hide();
         $grid->column('name', __('Category Name'));
         $grid->column('description', __('Description'))->hide();
-        $grid->column('status', __('Status'))->display(function($status){
-            return $status == 'active' ? 'Active' : 'Inactive';
-        })->sortable();
-        $grid->picture('image', __('Image'))->image()->hide();
+       
+        $grid->image('image', __('Image'))->image('',70,70);
         $grid->column('buying_price', __('Investment'))
             ->display(function($buying_price){
                 return number_format($buying_price);
@@ -63,6 +61,12 @@ class StockCategoryController extends AdminController
         ->display(function($earned_profit){
             return number_format($earned_profit);
         })->sortable();
+
+        $grid->column('status', __('Status'))
+        ->label([
+            'Active'=> 'success',
+            'Inactive'=> 'danger'
+        ])->sortable();
 
         return $grid;
     }
@@ -103,12 +107,16 @@ class StockCategoryController extends AdminController
         $form = new Form(new StockCategory());
 
         $u = Admin::user();
-        
-
         $form->hidden('company_id', __('Company id'))
         ->default($u->company_id);
         $form->text('name', __('Category Name'))
         ->rules('required');
+
+       
+
+        $form->image('image', __('Image'));
+
+        $form->textarea('description', __('Category Description'));
 
         $form->radio('status', __('Status'))
         ->options([
@@ -117,10 +125,6 @@ class StockCategoryController extends AdminController
         ])
         ->default('Active')
         ->rules('required');
-
-        $form->image('image', __('Image'));
-
-        $form->textarea('description', __('Category Description'));
         return $form;
     }
 }

@@ -14,5 +14,9 @@ Route::group([
     $router->get('/', 'HomeController@index')->name('home');
     $router->resource('companies', CompanyController::class);
     $router->resource('stock-categories', StockCategoryController::class);
+    $router->resource('stock-sub-categories', StockSubCategoryController::class); 
+    $router->resource('financial-periods', FinancialPeriodController::class);
+    $router->resource('employees', EmployeesController::class);
+    $router->resource('stock-items', StockItemController::class); 
 
-});
+}); 

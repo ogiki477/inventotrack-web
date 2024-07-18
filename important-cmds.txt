@@ -1,14 +1,22 @@
 php artisan make:migration create_categories_table
 php artisan make:model Category
 
-php artisan admin:make CompanyController --model=App\Models\Company
+php artisan admin:make StockSubCategoryController --model=App\Models\StockSubCategory
 
 // how to add column to an existing table
-php artisan make:migration add_column_to_admin_users --table=admin_users
+php artisan make:migration add_column_to_financial_periods --table=financial_periods
 
 // how to add column from an existing table
 php artisan make:migration remove_column_name_from_inventory_items --table=inventory_items 
 
-php artisan make:model Company -m 
+php artisan make:model FinancialPeriod -m 
+
+php artisan admin:make FinancialPeriodController --model=App\Models\FinancialPeriod
 
 php artisan make:migration add_more_data_to_admin_users --table=admin_users
+
+php artisan admin:make EmployeesController --model=App\Models\User
+
+php artisan make:migration add_email_to_admin_users --table=admin_users
+
+ php artisan admin:make StockItemController --model=App\Models\StockItem

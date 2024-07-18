@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Company;
+use App\Models\StockCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,6 +16,20 @@ return new class extends Migration
         Schema::create('stock_sub_categories', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignIdFor(Company::class);
+            $table->foreignIdFor(StockCategory::class);
+            $table->text("name")->nullable();
+            $table->text("description")->nullable();
+            $table->string("status")->nullable()->default('active');
+            $table->text("image")->nullable();
+            $table->bigInteger("buying_price")->nullable()->default(0);
+            $table->bigInteger("selling_price")->nullable()->default(0);
+            $table->bigInteger("expected_profit")->nullable()->default(0);
+            $table->bigInteger("earned_profit")->nullable()->default(0);
+            $table->string("measurement_unit");
+            $table->bigInteger("current_quantity")->nullable()->default(0);
+            $table->bigInteger("reorder_level")->nullable()->default(0);
+
         });
     }
 
