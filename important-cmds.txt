@@ -3,6 +3,8 @@ php artisan make:model Category
 
 php artisan admin:make StockSubCategoryController --model=App\Models\StockSubCategory
 
+php artisan admin:make CompanyEditController --model=App\Models\Company
+
 // how to add column to an existing table
 php artisan make:migration add_column_to_financial_periods --table=financial_periods
 
@@ -20,3 +22,12 @@ php artisan admin:make EmployeesController --model=App\Models\User
 php artisan make:migration add_email_to_admin_users --table=admin_users
 
  php artisan admin:make StockItemController --model=App\Models\StockItem
+
+
+ php artisan make:migration add_in_to_stock_categories --table=stock_sub_categories
+
+
+  php artisan make:migration add_finacial_period_id_column_to_stock_records --table=stock_records
+
+
+    php artisan make:migration add_currency_column_to_companies --table=companies

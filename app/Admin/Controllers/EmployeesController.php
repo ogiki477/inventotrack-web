@@ -7,6 +7,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use Encore\Admin\Grid\Tools\QuickSearch;
 use Encore\Admin\Show;
 
 class EmployeesController extends AdminController
@@ -27,23 +28,45 @@ class EmployeesController extends AdminController
     {
         $grid = new Grid(new User());
 
-        $grid->column('id', __('Id'));
-        $grid->column('username', __('Username'));
-        $grid->column('password', __('Password'));
-        $grid->column('name', __('Name'));
-        $grid->column('avatar', __('Avatar'));
-        $grid->column('remember_token', __('Remember token'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
-        $grid->column('company_id', __('Company id'));
-        $grid->column('first_name', __('First name'));
-        $grid->column('last_name', __('Last name'));
-        $grid->column('phone_number 1', __('Phone number 1'));
-        $grid->column('phone_number 2', __('Phone number 2'));
+        $u = Admin::user();
+
+        $grid->model()->where('company_id',$u->company_id);
+
+        $grid->quickSearch('name')->placeholder("Search by name");
+        $grid->disableBatchActions(); 
+
+       
+        $grid->column('name', __('Name'))->sortable();
+        $grid->column('avatar', __('Photo'))->image('',70,70);
+
+       
+        
+        
+        $grid->column('phone_number 1', __('Phone number 1'))->hide();
+        $grid->column('phone_number 2', __('Phone number 2'))->hide();
         $grid->column('address', __('Address'));
-        $grid->column('sex', __('Sex'));
-        $grid->column('dob', __('Dob'));
-        $grid->column('status', __('Status'));
+        $grid->column('sex', __('Gender'))->filter([
+            'Male'=>'Male',
+            'Female'=>'Female',
+
+        ])->sortable();
+        $grid->column('dob', __('Dob'))->sortable();
+        $grid->column('status', __('Status'))
+        ->label([
+            'Active'=> 'success',
+            'Inactive'=> 'danger'
+        ])
+        ->filter([
+            'Active'=> 'Active',
+            'Inactive'=> 'Inactive'
+
+        ])->sortable();
+
+        $grid->column('created_at', __('Registered'))
+       
+        ->display(function ($created_at){
+            return date('Y-m-d',strtotime($created_at));
+        })->sortable();
 
         return $grid;
     }

@@ -71,7 +71,25 @@ class StockSubCategoryController extends AdminController
             'Active'=> 'success',
             'Inactive'=> 'danger'
         ])
-        ->sortable();
+        ->sortable()
+        ->filter([
+            'Active'=> 'Active',
+            'Inactive'=> 'danger'
+        ]);
+
+        $grid->column('in_stock', __('In Stock'))
+        ->dot([
+            'Yes'=> 'success',
+            'No'=> 'danger'
+        ])
+        ->sortable()
+        ->filter([
+            'Yes' => 'In Stock',
+            'No'  => 'Out Of Stock'
+        ]);
+
+
+
         return $grid;
     }
 
