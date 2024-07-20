@@ -27,35 +27,33 @@ class CompanyEditController extends AdminController
     {
         $grid = new Grid(new Company());
 
+        $grid->disableBatchActions();
+        $grid->quickSearch('name')->placeholder('Search by name');
+
         $grid->disableCreateButton();
 
         $u = Admin::user();
         $grid->model()->where('id',$u->company_id);
 
        
-        
+        $grid->column('logo', __('Logo'))->image('',70,70);
         
         $grid->column('name', __('Name'))->sortable();
         $grid->column('email', __('Email'));
-        $grid->column('logo', __('Logo'))->image('',70,70);
+        
         $grid->column('website', __('Website'));
         $grid->column('about', __('About'))->hide();
         
         $grid->column('license_expiry', __('License expiry'));
         $grid->column('phone_number1', __('Phone number1'));
-        $grid->column('phone_number2', __('Phone number2'));
-        $grid->column('PoBox', __('PoBox'));
-        $grid->column('color', __('Color'));
-        $grid->column('slogan', __('Slogan'));
-        $grid->column('twitter', __('Twitter'));
-        $grid->column('facebook', __('Facebook'));
-        $grid->column('currency', __('Currency'));
-        $grid->column('settings_worker_can_create_stock_item', __('Settings worker can create stock item'));
-        $grid->column('settings_worker_can_create_stock_record', __('Settings worker can create stock record'));
-        $grid->column('settings_worker_can_create_stock_category', __('Settings worker can create stock category'));
-        $grid->column('settings_worker_can_view_balance', __('Settings worker can view balance'));
-        $grid->column('settings_worker_can_view_statistics', __('Settings worker can view statistics'));
 
+        $grid->actions(function ($actions) {
+           
+           // $actions->disableEdit();
+            $actions->disableView();
+            $actions->disableDelete();
+        });
+       
         return $grid;
     }
 
@@ -106,14 +104,14 @@ class CompanyEditController extends AdminController
     {
         $form = new Form(new Company());
 
-        $form->textarea('owner_id', __('Owner id'));
-        $form->textarea('name', __('Name'));
-        $form->textarea('email', __('Email'));
-        $form->textarea('logo', __('Logo'));
-        $form->textarea('website', __('Website'));
+       
+        $form->text('name', __('Name'))->rules('required');
+        $form->text('email', __('Email'));
+        $form->image('logo', __('Logo'));
+        $form->text('website', __('Website'));
         $form->text('about', __('About'));
-        $form->textarea('status', __('Status'));
-        $form->date('license_expiry', __('License expiry'))->default(date('Y-m-d'));
+        
+
         $form->textarea('phone_number1', __('Phone number1'));
         $form->textarea('phone_number2', __('Phone number2'));
         $form->textarea('PoBox', __('PoBox'));
@@ -121,12 +119,36 @@ class CompanyEditController extends AdminController
         $form->textarea('slogan', __('Slogan'));
         $form->textarea('twitter', __('Twitter'));
         $form->textarea('facebook', __('Facebook'));
-        $form->text('currency', __('Currency'))->default('USD');
-        $form->text('settings_worker_can_create_stock_item', __('Settings worker can create stock item'))->default('Yes');
-        $form->text('settings_worker_can_create_stock_record', __('Settings worker can create stock record'))->default('Yes');
-        $form->text('settings_worker_can_create_stock_category', __('Settings worker can create stock category'))->default('Yes');
-        $form->text('settings_worker_can_view_balance', __('Settings worker can view balance'))->default('Yes');
-        $form->text('settings_worker_can_view_statistics', __('Settings worker can view statistics'))->default('Yes');
+
+        $form->divider('Settings');
+        $form->text('currency', __('Currency'))->default('USD')->rules('required');
+        $form->radio('settings_worker_can_create_stock_item', __('Can worker create stock item'))
+        ->options(['Yes' => 'Yes', 'No' => 'No'])
+        ->default('Yes');
+        $form->radio('settings_worker_can_create_stock_record', __('Can worker create stock record'))
+        ->options(['Yes' => 'Yes', 'No' => 'No'])
+        ->default('Yes');
+        $form->radio('settings_worker_can_create_stock_category', __('Can worker create stock category'))
+        ->options(['Yes' => 'Yes', 'No' => 'No'])
+        ->default('Yes');
+        $form->radio('settings_worker_can_view_balance', __('Can worker view balances'))
+        ->options(['Yes' => 'Yes', 'No' => 'No'])
+        ->default('Yes');
+        $form->radio('settings_worker_can_view_statistics', __('Can worker view statistics'))
+        ->options(['Yes' => 'Yes', 'No' => 'No'])
+        ->default('Yes');
+
+        $form->tools(function (Form\Tools $tools) {
+            $tools->disableDelete();
+            $tools->disableView();
+        });
+
+        $form->disableCreatingCheck();
+        $form->disableEditingCheck();
+        $form->disableViewCheck();
+
+
+       
 
         return $form;
     }

@@ -18,6 +18,11 @@ class User extends Administrator
 
     protected $table = 'admin_users';
 
+    //company 
+    public function company(){
+        return $this->belongsTo(Company::class,'company_id');
+    }
+
 
     //boot 
     protected static function boot(){
