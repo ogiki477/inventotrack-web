@@ -44,7 +44,7 @@ class StockCategoryController extends AdminController
         $grid->column('name', __('Category Name'));
         $grid->column('description', __('Description'))->hide();
        
-        $grid->image('image', __('Image'))->image('',70,70);
+        $grid->image('image', __('Image'))->lightbox(['width' => 50, 'height' => 50,]);
         $grid->column('buying_price', __('Investment'))
             ->display(function($buying_price){
                 return number_format($buying_price);

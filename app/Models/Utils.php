@@ -7,6 +7,44 @@ use Illuminate\Database\Eloquent\Model;
 
 class Utils 
 {
+
+
+    public static function success($data, $message){
+       
+       header('Content-Type: application/json');
+       http_response_code(200);
+       echo json_encode([
+           'status' => 'success',
+           'message' => $message,
+           'data' => $data,
+       ]);
+       die();
+    } 
+
+
+    public static function error($data, $message){
+       
+       header('Content-Type: application/json');
+       http_response_code(400);
+       echo json_encode([
+           'status' => 'error',
+           'message' => $message,
+           'data' => $data,
+       ]);
+       die();
+    }
+
+
+
+
+    
+    
+
+
+
+
+
+
     static function getActiveFinancialPeriod($company_id){
 
         return FinancialPeriod::where('company_id',$company_id)

@@ -37,7 +37,7 @@ class StockSubCategoryController extends AdminController
 
         $grid->column('id', __('Id'))->sortable();
         
-        $grid->column('image', __('Image'))->image('',70,70);
+        $grid->column('image', __('Image'))->lightbox(['width' => 70, 'height' => 70,]);
         
         $grid->column('name', __('SubCategory Name'))->sortable();
         $grid->column('stock_category_id', __('Category Name'))
