@@ -27,7 +27,12 @@ php artisan make:migration add_email_to_admin_users --table=admin_users
  php artisan make:migration add_in_to_stock_categories --table=stock_sub_categories
 
 
-  php artisan make:migration add_finacial_period_id_column_to_stock_records --table=stock_records
+php artisan make:migration add_finacial_period_id_column_to_stock_records --table=stock_records
 
 
-    php artisan make:migration add_currency_column_to_companies --table=companies
+php artisan make:migration add_currency_column_to_companies --table=companies
+
+
+php artisan make:notification StockItemChangeNotification
+
+php artisan make:notification StockRecordChangeNotification

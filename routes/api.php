@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('auth/register',[ApiController::class,'register']);
+Route::post('auth/login',[ApiController::class,'login']);
+Route::post('api/{model}',[ApiController::class,'my_update']);
+Route::get('api/{model}',[ApiController::class,'my_list']);
+Route::post('file-uploading',[ApiController::class,'file_uploading']);
+Route::get('manifest',[ApiController::class,'manifest']);
 
     
 

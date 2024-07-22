@@ -4,9 +4,32 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Utils 
 {
+    public static function file_upload($file){
+        
+        if($file==null){
+            return "";
+        }
+        
+        //get file extension
+        $file_extension = $file->getClientOriginalExtension();
+        $file_name = time()."_".rand(1000,10000).".".$file_extension;
+        $file->move(public_path('uploads/images'),$file_name);
+        $url = 'images/'.$file_name;
+        return $url;
+        
+
+    }
+
+
+    public static function get_user(Request $r){
+        $logged_in_user_id = $r->header('logged_in_user_id');
+        $u = User::find($logged_in_user_id);
+        return $u;
+    }
 
 
     public static function success($data, $message){
@@ -22,14 +45,14 @@ class Utils
     } 
 
 
-    public static function error($data, $message){
+    public static function error($message){
        
        header('Content-Type: application/json');
        http_response_code(400);
        echo json_encode([
            'status' => 'error',
            'message' => $message,
-           'data' => $data,
+           
        ]);
        die();
     }

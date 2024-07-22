@@ -99,7 +99,7 @@ class StockRecord extends Model
 
 
 
-        });
+        }); 
 
 
     }
